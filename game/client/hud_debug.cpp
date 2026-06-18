@@ -57,3 +57,30 @@ void CHudDebug::Paint()
 	
 
 }
+
+void CHudDebug::DrawLine(int &y, const char *fmt, ...)
+{
+	char msg[1024];
+	va_list argptr;
+	va_start(argptr, fmt);
+	Q_vsnprintf(msg, sizeof(msg), fmt, argptr);
+	va_end(argptr);
+
+	// Ensure we have a valid font set up, default to default vgui font if empty
+	if (m_hFont == vgui::INVALID_FONT)
+	{
+		m_hFont = vgui::surface()->GetFontByName("DefaultFixedOutline");
+	}
+
+	vgui::surface()->DrawSetTextFont(m_hFont);
+	vgui::surface()->DrawSetTextColor(255, 255, 255, 255); // White text
+	vgui::surface()->DrawSetTextPos(20, y);
+
+	// Convert char to wchar_t for Source Engine surface drawing
+	wchar_t wmsg[1024];
+	g_pVGuiLocalize->ConvertANSIToUnicode(msg, wmsg, sizeof(wmsg));
+	vgui::surface()->DrawPrintText(wmsg, wcslen(wmsg));
+
+	// Automatically step the vertical spacing down for the next line
+	y += vgui::surface()->GetFontTall(m_hFont) + 2;
+}
