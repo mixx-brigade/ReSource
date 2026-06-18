@@ -1567,6 +1567,16 @@ void CHLClient::View_Fade( ScreenFade_t *pSF )
 //-----------------------------------------------------------------------------
 void CHLClient::LevelInitPreEntity( char const* pMapName )
 {
+	// Post that we are ReSource
+	Msg("\n");
+	Msg("============================================================\n");
+	Msg("                 Powered by ReSource 1                       \n");
+	Msg("           (C) meowcat767 & MIXX Brigade 2026           \n");
+	Msg("          Source is a trademark of Valve Software.     \n");
+	Msg("============================================================");
+	Msg("\n");
+
+
 	// HACK: Bogus, but the logic is too complicated in the engine
 	if (g_bLevelInitialized)
 		return;
@@ -1578,7 +1588,8 @@ void CHLClient::LevelInitPreEntity( char const* pMapName )
 	
 	//Tony; loadup per-map manifests.
 	ParseParticleEffectsMap( pMapName, true );
-	
+
+
 	// Tell mode manager that map is changing
 	modemanager->LevelInit( pMapName );
 	ParticleMgr()->LevelInit();
