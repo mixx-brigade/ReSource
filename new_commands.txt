@@ -3,4 +3,3 @@
 ### DEBUG COMMANDS ###
 
 "cl_debug_hud <1|0>" - Open the Debug HUD.
-"cl_debug_panel <1|0>" - Open the Debug Panel.
