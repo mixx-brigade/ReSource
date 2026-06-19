@@ -1,8 +1,3 @@
-// (C) Valve Software, meowcat767 & MIXX Brigade 2026
-// --------------------------------------------------
-// Purpose: header for the debugging panel
-// --------------------------------------------------
-
 #ifndef HUD_DEBUGPANEL_H
 #define HUD_DEBUGPANEL_H
 
@@ -11,19 +6,23 @@
 #endif
 
 #include "hudelement.h"
-#include <vgui_controls/Panel.h>
+#include <vgui_controls/Frame.h>
+#include <vgui_controls/Label.h>
 
-
-class CHuDebugPanel : public CHudElement, public vgui::Panel
+class CHudDebugPanel : public CHudElement, public vgui::Frame
 {
-	DECLARE_CLASS_SIMPLE(CHuDebugPanel, vgui::Panel);
+	DECLARE_CLASS_SIMPLE(CHudDebugPanel, vgui::Frame);
 
 public:
-	CHuDebugPanel(const char *name);
+	CHudDebugPanel(const char *pElementName);
 
 	virtual void Init();
 	virtual void VidInit();
-	virtual void Paint();
+	virtual void OnThink();
+
+private:
+	vgui::Label *m_pSpeedLabel;
+	vgui::Label *m_pFPSLabel;
 };
 
 #endif

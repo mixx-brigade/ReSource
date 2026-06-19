@@ -29,6 +29,7 @@ obj*/
 !utils/smdlexp/smdlexp.mak
 
 # Specific Source build products
+vc120.pdb
 client.pdb
 client.dll
 client.lib
@@ -61,3 +62,7 @@ config.cfg
 *.opendb
 *.ipch
 
+game/server/Release_mod_episodic/vc120.pdb
+game/client/Release_mod_hl2/vc120.pdb
+game/server/Release_mod_hl2/vc120.pdb
+game/client/Release_mod_episodic/vc120.pdb

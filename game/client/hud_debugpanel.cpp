@@ -1,8 +1,3 @@
-// (C) Valve Software, meowcat767 & MIXX Brigade 2026
-// --------------------------------------------------
-// Purpose: debugging panel
-// --------------------------------------------------
-
 #include "cbase.h"
 #include "hud_debugpanel.h"
 
@@ -10,34 +5,65 @@
 #include "hud_macros.h"
 #include "c_baseplayer.h"
 
-using namespace vgui;
-
-DECLARE_HUDELEMENT(CHuDebugPanel);
+DECLARE_HUDELEMENT(CHudDebugPanel);
 
 ConVar cl_debug_panel("cl_debug_panel", "0");
 
-CHuDebugPanel::CHuDebugPanel(const char *name) : CHudElement(name), BaseClass(NULL, "HudDebugPanel")
+using namespace vgui;
+
+CHudDebugPanel::CHudDebugPanel(const char *pElementName)
+	: CHudElement(pElementName),
+	BaseClass(NULL, "DebugPanel")
 {
 	SetParent(g_pClientMode->GetViewport());
+
+	SetTitle("Debug Panel", true);
+
+	SetPos(50, 50);
+	SetSize(250, 150);
+
+	SetMoveable(true);
+	SetSizeable(false);
+	SetCloseButtonVisible(false);
+	SetMinimizeButtonVisible(false);
+	SetMaximizeButtonVisible(false);
+
+	m_pSpeedLabel = new Label(this, "SpeedLabel", "");
+	m_pSpeedLabel->SetPos(10, 30);
+	m_pSpeedLabel->SetSize(200, 20);
+
+	m_pFPSLabel = new Label(this, "FPSLabel", "");
+	m_pFPSLabel->SetPos(10, 50);
+	m_pFPSLabel->SetSize(200, 20);
+
+	SetVisible(false);
 }
 
-void CHuDebugPanel::Init()
+void CHudDebugPanel::Init()
 {
 }
 
-void CHuDebugPanel::VidInit()
+void CHudDebugPanel::VidInit()
 {
 }
 
-void CHuDebugPanel::Paint()
+void CHudDebugPanel::OnThink()
 {
-	if (!cl_debug_panel.GetBool())
-		return;
+	SetVisible(cl_debug_panel.GetBool());
 
 	C_BasePlayer *player = C_BasePlayer::GetLocalPlayer();
 
 	if (!player)
-		return
+		return;
 
+	float speed = player->GetAbsVelocity().Length2D();
+	float fps = 1.0f / gpGlobals->frametime;
 
+	wchar_t buffer[64];
+
+	swprintf(buffer, ARRAYSIZE(buffer), L"Speed: %.0f", speed);
+	m_pSpeedLabel->SetText(buffer);
+
+	swprintf(buffer, ARRAYSIZE(buffer), L"FPS: %.0f", fps);
+	m_pFPSLabel->SetText(buffer);
 }

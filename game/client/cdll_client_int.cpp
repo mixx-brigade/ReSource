@@ -1570,7 +1570,7 @@ void CHLClient::LevelInitPreEntity( char const* pMapName )
 	// Post that we are ReSource
 	Msg("\n");
 	Msg("============================================================\n");
-	Msg("                 Powered by ReSource 1                       \n");
+	Msg("                 Powered by MSource 1                       \n");
 	Msg("                 Build: %s, %s\n", __DATE__, __TIME__        );
 	Msg("\n           (C) meowcat767 & MIXX Brigade 2026           \n");
 	Msg("          Source is a trademark of Valve Software.     \n");
