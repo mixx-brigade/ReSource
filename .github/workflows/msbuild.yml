@@ -1,0 +1,34 @@
+name: MSBuild C++ VS2013
+
+on:
+  push:
+    branches: [ "master" ]
+  pull_request:
+    branches: [ "master" ]
+
+env:
+  SOLUTION_FILE_PATH: .
+  BUILD_CONFIGURATION: Release
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: windows-2019 # Required: Windows 2019 contains older SDK components.
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Add MSBuild to PATH
+      uses: microsoft/setup-msbuild@v2
+
+    - name: Build C++ Solution
+      working-directory: ${{env.GITHUB_WORKSPACE}}
+      # The flags below tell the modern compiler to emulate and use the VS2013 configurations
+      run: |
+        msbuild /m /p:Configuration=${{env.BUILD_CONFIGURATION}} `
+                   /p:Platform=x64 `
+                   /p:PlatformToolset=v142 `
+                   /p:VisualStudioVersion=16.0 `
+                   ${{env.SOLUTION_FILE_PATH}}
