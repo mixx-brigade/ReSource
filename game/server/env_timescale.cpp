@@ -41,5 +41,5 @@ void CEnvTimescale::InputReset(inputdata_t &inputdata)
 {
 	host_timescale.SetValue(1.0f);
 
-	Msg("[env_timescale] Reset Timescale.\n")
+	Msg("[env_timescale] Reset Timescale.\n");
 }
