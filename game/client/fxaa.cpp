@@ -7,6 +7,8 @@
 ConVar mat_fxaa("mat_fxaa", "1", FCVAR_ARCHIVE, "Enable/disable FXAA post-processing effect");
 
 IMaterial* g_pFXAAMaterial = nullptr;
+IMaterialVar* g_pFXAAC0X = nullptr;
+IMaterialVar* g_pFXAAC0Y = nullptr;
 
 CFXAAEffect::CFXAAEffect()	
 {
@@ -16,6 +18,12 @@ CFXAAEffect::CFXAAEffect()
 void CFXAAEffect::Init(void)
 {
 	g_pFXAAMaterial = materials->FindMaterial("effects/fxaa", TEXTURE_GROUP_OTHER, true);
+	if (g_pFXAAMaterial)
+	{
+		bool bFoundVar = false;
+		g_pFXAAC0X = g_pFXAAMaterial->FindVar("$c0_x", &bFoundVar, false);
+		g_pFXAAC0Y = g_pFXAAMaterial->FindVar("$c0_y", &bFoundVar, false);
+	}
 }
 
 void CFXAAEffect::Shutdown(void)
@@ -40,6 +48,11 @@ void CFXAAEffect::Render(int x, int y, int w, int h)
 {
 	if (!IsEnabled() || !g_pFXAAMaterial)
 		return;
+
+	if (g_pFXAAC0X)
+		g_pFXAAC0X->SetFloatValue(1.0f / w);
+	if (g_pFXAAC0Y)
+		g_pFXAAC0Y->SetFloatValue(1.0f / h);
 
 	IMatRenderContext* pRenderContext = materials->GetRenderContext();
 
