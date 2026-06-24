@@ -8,16 +8,13 @@
 
 ConVar mat_fxaa("mat_fxaa", "1", FCVAR_ARCHIVE, "Enable FXAA post-processing");
 
-IMaterial* g_pFXAAMaterial = nullptr;
-
-CFXAAEffect::CFXAAEffect()
+CFXAAEffect::CFXAAEffect()	
 {
 	m_bEnabled = true;
 }
 
 void CFXAAEffect::Init()
 {
-	g_pFXAAMaterial = materials->FindMaterial("effects/fxaa", TEXTURE_GROUP_OTHER, true);
 }
 
 void CFXAAEffect::Shutdown()
@@ -48,17 +45,13 @@ void CFXAAEffect::Render(int x, int y, int w, int h)
 
 	pRenderContext->PushRenderTargetAndViewport();
 
-	pRC->PushRenderTargetAndViewport();
+	pRenderContext->Bind(g_pFXAAMaterial);
 
-	// This is the correct Source-style fullscreen draw
-	pRC->DrawScreenSpaceRectangle(
-		g_pFXAAMaterial,
-		0, 0, w, h,     // dest rect
-		0, 0, 1, 1,     // UVs
-		w, h            // texture size
-	);
+	// Fullscreen quad
+	CMatRenderContextPtr pRC(materials);
+	pRC->DrawScreenSpaceQuad(g_pFXAAMaterial);
 
-	pRC->PopRenderTargetAndViewport();
+	pRenderContext->PopRenderTargetAndViewport();
 }
 
 // Register effect
