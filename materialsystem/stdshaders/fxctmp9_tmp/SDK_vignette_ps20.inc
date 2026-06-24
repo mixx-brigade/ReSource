@@ -1,5 +1,5 @@
 #include "shaderlib/cshader.h"
-class sdk_fxaa_ps20_Static_Index
+class sdk_vignette_ps20_Static_Index
 {
 private:
 	int m_nCONVERT_TO_SRGB;
@@ -23,7 +23,7 @@ public:
 #endif
 	}
 public:
-	sdk_fxaa_ps20_Static_Index( )
+	sdk_vignette_ps20_Static_Index( )
 	{
 #ifdef _DEBUG
 		m_bCONVERT_TO_SRGB = true;
@@ -41,11 +41,11 @@ public:
 		return ( 1 * m_nCONVERT_TO_SRGB ) + 0;
 	}
 };
-#define shaderStaticTest_sdk_fxaa_ps20 0
-class sdk_fxaa_ps20_Dynamic_Index
+#define shaderStaticTest_sdk_vignette_ps20 0
+class sdk_vignette_ps20_Dynamic_Index
 {
 public:
-	sdk_fxaa_ps20_Dynamic_Index()
+	sdk_vignette_ps20_Dynamic_Index()
 	{
 	}
 	int GetIndex()
@@ -57,4 +57,4 @@ public:
 		return 0;
 	}
 };
-#define shaderDynamicTest_sdk_fxaa_ps20 0
+#define shaderDynamicTest_sdk_vignette_ps20 0
