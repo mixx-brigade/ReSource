@@ -664,13 +664,18 @@ void CAI_NetworkManager::LoadNetworkGraph( void )
 	// -------------------------------
 	// Load WC lookup table
 	// -------------------------------
-	delete [] GetEditOps()->m_pNodeIndexTable;
-	GetEditOps()->m_pNodeIndexTable	= new int[MAX( m_pNetwork->m_iNumNodes, 1 )];
-	memset( GetEditOps()->m_pNodeIndexTable, 0, sizeof( int ) *MAX( m_pNetwork->m_iNumNodes, 1 ) );
+	CAI_NetworkEditTools *pEditOps = GetEditOps();
+	if ( !pEditOps )
+		return;
+
+	delete [] pEditOps->m_pNodeIndexTable;
+	pEditOps->m_pNodeIndexTable = NULL;
+	pEditOps->m_pNodeIndexTable	= new int[MAX( m_pNetwork->m_iNumNodes, 1 )];
+	memset( pEditOps->m_pNodeIndexTable, 0, sizeof( int ) *MAX( m_pNetwork->m_iNumNodes, 1 ) );
 
 	for (node = 0; node < m_pNetwork->m_iNumNodes; node++)
 	{
-		GetEditOps()->m_pNodeIndexTable[node] = buf.GetInt();
+		pEditOps->m_pNodeIndexTable[node] = buf.GetInt();
 	}
 
 	
@@ -684,7 +689,7 @@ void CAI_NetworkManager::LoadNetworkGraph( void )
 	
 	for (node = 0; node < m_pNetwork->m_iNumNodes; node++)
 	{
-		int editorId = GetEditOps()->m_pNodeIndexTable[node];
+		int editorId = pEditOps->m_pNodeIndexTable[node];
 		if ( editorId != NO_NODE )
 		{
 			if ( usedIds.Find( editorId ) != usedIds.InvalidIndex() )
